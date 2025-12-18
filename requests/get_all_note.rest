@@ -1,7 +1,2 @@
-POST http://localhost:3001/api/notes
-Content-Type: application/json
+DELETE http://localhost:3001/api/persons/2
 
-{
-  "content": "This is a new note",
-  "important": true
-}
