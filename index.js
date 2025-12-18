@@ -24,13 +24,12 @@ let notes =[
     }
 ]
 app.get('/', (request, response) => {
-  response.send('<h1>Phone Book Backend using get</h1>')
+  response.send('<h1>Exercise 3.1!</h1>')
 })
 
 app.get('/api/persons', (request, response) => {
  response.json(notes)
 })
-
 
 const PORT = 3001
 app.listen(PORT)
