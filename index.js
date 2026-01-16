@@ -28,10 +28,10 @@ let persons = [
     }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Exercise 3.9!</h1>')
-})
 
+app.get('/api/persons', (request, response) => {
+ response.json(persons)
+})
 app.get('/api/info', (request, response) => {
     const date = new Date()
     const entryCount = persons.length
@@ -59,9 +59,7 @@ let notes = [
   }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
+
 
 app.get('/api/notes', (request, response) => {
  response.json(notes)
