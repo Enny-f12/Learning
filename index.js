@@ -26,6 +26,7 @@ app.get('/', (request, response) => {
 
 app.get('/api/notes', (request, response) => {
  response.json(notes)
+ console.log('Notes sent:', notes.length)
 })
 
 app.get('/api/notes/:id', (request, response) => {
