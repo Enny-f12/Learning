@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-     "dev": "node --watch index.js"
+     "dev": "node --watch index.js",
+  "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../../.. && cd my-frontend && npm run build && @powershell Copy-Item -Path dist -Recurse -Destination ./LEARNING/nodejs",
+  "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push origin dev"
   },
   "keywords": [],
   "author": "",
