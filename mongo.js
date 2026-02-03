@@ -1,13 +1,13 @@
-require('dotenv').config() // 1. Load the variables at the very top
+require('dotenv').config() 
 console.log("Database URL loaded:", process.env.MONGODB_URI ? "YES" : "NO");
 const mongoose = require('mongoose')
 
-// Use the variable from .env
+
 const url = process.env.MONGODB_URI 
 
 mongoose.set('strictQuery', false)
 
-// It's better to handle the connection this way
+
 mongoose.connect(url)
   .then(() => {
     console.log('connected to MongoDB')
@@ -15,20 +15,29 @@ mongoose.connect(url)
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
   })
+// schema and model
 
+// schema serves as the blueprint or rule book for data structure in a MongoDB collection.
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
 })
 
 const Note = mongoose.model('Note', noteSchema)
-
-const note = new Note({
-  content: 'HTML is easy',
-  important: true,
-})
-
-note.save().then((result) => {
-  console.log('note saved!')
+// model acts like the constructor function for creating and managing documents in a specific MongoDB collection.
+//const note = new Note({
+//  content: 'HTML is easy',
+//  important: true,
+//})
+// fetching all documents from database
+Note.find({important: true }).then(result => {
+  result.forEach(note => {
+    console.log(note)
+  })
   mongoose.connection.close()
 })
+// saving a document
+//note.save().then((result) => {
+ // console.log('note saved!')
+ // mongoose.connection.close()
+//})
