@@ -1,17 +1,20 @@
+require('dotenv').config() // 1. Load the variables at the very top
+console.log("Database URL loaded:", process.env.MONGODB_URI ? "YES" : "NO");
 const mongoose = require('mongoose')
 
-if (process.argv.length < 3) {
-  console.log('give password as argument')
-  process.exit(1)
-}
+// Use the variable from .env
+const url = process.env.MONGODB_URI 
 
-const password = process.argv[2]
+mongoose.set('strictQuery', false)
 
-const url = `mongodb+srv://alayandeesther469_db_user:LDncYiocjhJUakNp@cluster0.s1sav8h.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`
-
-mongoose.set('strictQuery',false)
-
-mongoose.connect(url, { family: 4 })
+// It's better to handle the connection this way
+mongoose.connect(url)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 const noteSchema = new mongoose.Schema({
   content: String,
