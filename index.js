@@ -43,10 +43,11 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
     })
 })
-app.get('/api/persons/:id', (request, response) => {
-    Person.findById(request.params.id).then(person => {
+//exercise 3.18
+app.get('/api/persons/:id', (request,response) => {
+  Person.findById(request.params.id).then(person=>{
     response.json(person)
-    })
+  })
 })
 //exercise 3.15
 app.delete('/api/persons/:id', (request, response,next)=>{
