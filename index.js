@@ -36,17 +36,31 @@ app.get('/api/notes', (request, response) => {
 })
 //using database to fetch a single note by id
 app.get('/api/notes/:id', (request, response) => {
-  Note.findById(request.params.id).then(note => {
-    response.json(note)
-  })
+  Note.findById(request.params.id)
+    .then(note => {
+      //handling errors
+      if (note) {
+        response.json(note)
+      }
+      else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      response.status(500).send({ error: "Malformatted ID" })
+    })
 })
 
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  notes = notes.filter(note => note.id !== id)
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      return response.status(204).end()
+    })
+    //handling error using middleware
+    .catch(error => next(error))
 
-  response.status(204).end()
 })
 
 //creating a new note and saving to database
@@ -65,6 +79,25 @@ app.post('/api/notes', (request, response) => {
   note.save().then(savedNote => {
     response.json(savedNote)
   })
+})
+
+app.put('/api/notes/:id', (request, response, next) => {
+  const { content, important } = request.body
+
+  Note.findById(request.params.id)
+    .then(note => {
+      if (!note) {
+        return response.status(404).end()
+      }
+
+      note.content = content
+      note.important = important
+
+      return note.save().then((updatedNote) => {
+        response.json(updatedNote)
+      })
+    })
+    .catch(error => next(error))
 })
 
 const PORT = process.env.PORT || 3001
