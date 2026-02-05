@@ -100,7 +100,17 @@ app.put('/api/notes/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
+const errorHandler = (error, request, response, next) =>{
+  console.error(error.message)
 
+  if (error.name === "castError"){
+    return response.status(400).send({error: "malformed ID"})
+  }
+  else if(error.name === "ValidationError"){
+    return response.status(404).json({error: ""})
+  }
+  next(error)
+}
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
