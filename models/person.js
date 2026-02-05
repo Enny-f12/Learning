@@ -24,7 +24,12 @@ const personSchema = new mongoose.Schema({
           required:true,
           minLength:3
         },
-        number: String,
+        //added validation for phone number input
+        number: {
+          type:String,
+          required:true,
+          minLength:8
+        },
 })
 
 personSchema.set('toJSON', {
