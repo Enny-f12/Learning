@@ -8,7 +8,9 @@
     "start": "nodemon index.js",
     "dev": "node --watch index.js",
     "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../../../my-frontend && npm run build && @powershell Copy-Item -Path dist -Recurse -Destination ../LEARNING/nodejs/Learning",
-    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push origin dev"
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'uibuild' && git push origin dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,10 @@
     "mongoose": "^9.1.4"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.7.1",
+    "eslint": "^9.39.2",
+    "globals": "^17.3.0",
     "nodemon": "^3.1.11"
   }
 }

@@ -1,13 +1,13 @@
-require('dotenv').config() 
+require('dotenv').config()
 const mongoose = require('mongoose')
 
-const url = process.env.MONGODB_URI 
+const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery', false)
 
 mongoose.connect(url)
   .then(() => {
-    console.log('connected to MongoDB') 
+    console.log('connected to MongoDB')
   })
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
@@ -29,7 +29,7 @@ const note = new Note({
 
 
 // saving a document
-note.save().then((result) => {
- console.log('note saved!')
+note.save().then(() => {
+  console.log('note saved!')
   mongoose.connection.close()
 })

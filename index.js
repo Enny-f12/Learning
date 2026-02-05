@@ -6,23 +6,6 @@ app.use(express.json())
 app.use(express.static('dist'))
 
 
-let notes = [
-  {
-    id: "1",
-    content: "HTML is easy",
-    important: true
-  },
-  {
-    id: "2",
-    content: "Browser can execute only JavaScript",
-    important: false
-  },
-  {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true
-  }
-]
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -48,14 +31,14 @@ app.get('/api/notes/:id', (request, response) => {
     })
     .catch(error => {
       console.log(error)
-      response.status(500).send({ error: "Malformatted ID" })
+      response.status(500).send({ error: 'Malformatted ID' })
     })
 })
 
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       return response.status(204).end()
     })
     //handling error using middleware
@@ -66,7 +49,7 @@ app.delete('/api/notes/:id', (request, response, next) => {
 //creating a new note and saving to database
 app.post('/api/notes', (request, response) => {
   const body = request.body
-//validation
+  //validation
   if (!body.content) {
     return response.status(400).json({ error: 'content missing' })
   }
@@ -103,11 +86,11 @@ app.put('/api/notes/:id', (request, response, next) => {
 const errorHandler = (error, request, response, next) =>{
   console.error(error.message)
 
-  if (error.name === "castError"){
-    return response.status(400).send({error: "malformed ID"})
+  if (error.name === 'castError'){
+    return response.status(400).send({error: 'malformed ID'})
   }
-  else if(error.name === "ValidationError"){
-    return response.status(404).json({error: ""})
+  else if(error.name === 'ValidationError'){
+    return response.status(404).json({error: ''})
   }
   next(error)
 }
