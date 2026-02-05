@@ -66,7 +66,7 @@ app.delete('/api/notes/:id', (request, response, next) => {
 //creating a new note and saving to database
 app.post('/api/notes', (request, response) => {
   const body = request.body
-
+//validation
   if (!body.content) {
     return response.status(400).json({ error: 'content missing' })
   }
@@ -99,6 +99,8 @@ app.put('/api/notes/:id', (request, response, next) => {
     })
     .catch(error => next(error))
 })
+
+
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
