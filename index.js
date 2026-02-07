@@ -83,14 +83,14 @@ app.put('/api/notes/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-const errorHandler = (error, request, response, next) =>{
+const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'castError'){
-    return response.status(400).send({error: 'malformed ID'})
+    return response.status(400).send({ error: 'malformed ID' })
   }
   else if(error.name === 'ValidationError'){
-    return response.status(404).json({error: ''})
+    return response.status(404).json({ error: '' })
   }
   next(error)
 }
