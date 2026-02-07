@@ -1,10 +1,9 @@
-require('dotenv').config() 
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
 
 
-const url = process.env.MONGODB_URI_PHONEBOOK
+const url = process.env.MONGODB_URI_NOTES
 
 console.log('connecting to', url)
 
@@ -17,12 +16,17 @@ mongoose.connect(url, { family: 4 })
     console.log('error connecting to MongoDB:', error.message)
   })
 
-const personSchema = new mongoose.Schema({
-        name: String,
-        number: String,
+const noteSchema = new mongoose.Schema({
+  content:{
+    //added validation
+    type: String,
+    minlength:5,
+    required:true
+  } ,
+  important: Boolean,
 })
 
-personSchema.set('toJSON', {
+noteSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
@@ -30,4 +34,5 @@ personSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Person', personSchema, 'persons')
+
+module.exports = mongoose.model('Note', noteSchema)
