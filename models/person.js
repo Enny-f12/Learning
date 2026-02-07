@@ -18,20 +18,24 @@ mongoose.connect(url, { family: 4 })
   })
 
 const personSchema = new mongoose.Schema({
-        name: {
-          //expanded validation to make name at lest 3 characters long
-          type:String,
-          required:true,
-          minLength:3
-        },
-        //added validation for phone number input
-        number: {
-          type:String,
-          required:true,
-          minLength:8
-        },
+  name: {
+    type: String,
+    required: true,
+    minLength: 3 // Satisfies Exercise 3.19
+  },
+  number: {
+    type: String,
+    required: true,
+    minLength: 8,
+    validate: {
+      validator: function(v) {
+        // Regex: 2-3 digits, then a hyphen, then more digits
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    }
+  },
 })
-
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
