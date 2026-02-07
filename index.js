@@ -48,6 +48,24 @@ app.get('/api/persons/:id', (request, response) => {
     response.json(person)
     })
 })
+
+app.post('/api/persons/', (request, response) => {
+  const body = request.body;
+  
+   if(!body.name || !body.number){
+    return response.status(400).json({error:"name or number is missing"})
+  }
+  const person = new Person({
+    name:body.name,
+    number:body.number,
+  })
+
+ person.save().then(savedPerson =>
+  {
+    response.json(savedPerson)
+  })
+  .catch(error => next(error))
+})
 //exercise 3.15
 app.delete('/api/persons/:id', (request, response,next)=>{
   Person.findByIdAndDelete(request.params.id)
